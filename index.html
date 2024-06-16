@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Action Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .game-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background-color: #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        #player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: blue;
+            border-radius: 50%;
+            left: 50px;
+            bottom: 50px;
+        }
+        .enemy {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            top: 50px;
+            right: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div id="player"></div>
+        <div class="enemy"></div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const enemies = document.querySelectorAll('.enemy');
+
+        let playerX = 50;
+        let playerY = 50;
+
+        function updatePlayerPosition() {
+            player.style.left = `${playerX}px`;
+            player.style.bottom = `${playerY}px`;
+        }
+
+        function movePlayer(direction) {
+            switch (direction) {
+                case 'up':
+                    playerY += 10;
+                    break;
+                case 'down':
+                    playerY -= 10;
+                    break;
+                case 'left':
+                    playerX -= 10;
+                    break;
+                case 'right':
+                    playerX += 10;
+                    break;
+            }
+            updatePlayerPosition();
+        }
+
+        function moveEnemies() {
+            enemies.forEach(enemy => {
+                let enemyX = parseInt(enemy.style.right);
+                enemyX += Math.random() < 0.5 ? -10 : 10;
+                enemy.style.right = `${enemyX}px`;
+            });
+        }
+
+        setInterval(moveEnemies, 1000);
+
+        document.addEventListener('keydown', function(event) {
+            switch (event.key) {
+                case 'ArrowUp':
+                    movePlayer('up');
+                    break;
+                case 'ArrowDown':
+                    movePlayer('down');
+                    break;
+                case 'ArrowLeft':
+                    movePlayer('left');
+                    break;
+                case 'ArrowRight':
+                    movePlayer('right');
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
